@@ -47,10 +47,13 @@ function IncomingOrders() {
 
     if (confirmResult.isConfirmed) {
       try {
-        const response = await axios.post("/api/orders/approveOrder", {
-          orderId,
-          pelangganId,
-        });
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_API}/api/orders/approveOrder`, 
+          {
+            orderId,
+            pelangganId,
+          }
+        );
 
         fetchOrders();
 
