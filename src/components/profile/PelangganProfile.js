@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Container } from "react-bootstrap";
 import { Tab, Col, Nav, Row, Table } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
@@ -82,7 +82,7 @@ export function History() {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          /api/orders/historyorder/${pelangganId}
+          `/api/orders/historyorder/${pelangganId}`
         );
         setOrders(response.data);
       } catch (error) {
