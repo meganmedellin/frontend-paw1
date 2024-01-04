@@ -79,25 +79,21 @@ export function History() {
   const pelangganId = pelanggans ? pelanggans._id : null;
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          /api/orders/historyorder/${pelangganId}
+        );
+        setOrders(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (pelangganId) {
       fetchOrders();
     }
   }, [pelangganId]);
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
-    try {
-      const response = await axios.get(
-        `/api/orders/historyorder/${pelangganId}`
-      );
-      setOrders(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Container>
@@ -116,16 +112,22 @@ export function History() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, index) => (
-            <tr key={order._id}>
-              <td>{index + 1}</td>
-              <td>{order.driverName}</td>
-              <td>{order.additionalInfo}</td>
-              <td>{order.titikTujuan}</td>
-              <td>{order.harga}</td>
-              <td>{order.statusOrder}</td>
+          {Array.isArray(orders) && orders.length > 0 ? (
+            orders.map((order, index) => (
+              <tr key={order._id}>
+                <td>{index + 1}</td>
+                <td>{order.driverName}</td>
+                <td>{order.additionalInfo}</td>
+                <td>{order.titikTujuan}</td>
+                <td>{order.harga}</td>
+                <td>{order.statusOrder}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">Tidak ada riwayat order.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
     </Container>
